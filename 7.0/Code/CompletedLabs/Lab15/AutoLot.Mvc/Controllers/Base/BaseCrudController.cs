@@ -31,7 +31,7 @@ public abstract class BaseCrudController<TEntity, TController> : Controller wher
         => View(BaseRepoInstance.GetAllIgnoreQueryFilters());
 
     [HttpGet("{id?}")]
-    //[HttpGet("/[controller]/[action]{id?}")]
+    //[HttpGet("/[controller]/[action]/{id?}")]
     public virtual IActionResult Details(int? id)
     {
         if (!id.HasValue)
