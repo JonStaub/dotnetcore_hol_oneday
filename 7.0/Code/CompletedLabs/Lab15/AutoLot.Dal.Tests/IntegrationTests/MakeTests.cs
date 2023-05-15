@@ -24,6 +24,14 @@ public class MakeTests : BaseTest, IClassFixture<EnsureAutoLotDatabaseTestFixtur
     }
 
     [Fact]
+    public void Foo()
+    {
+        var query =
+            Context.Makes
+                .Where(x => ApplicationDbContext.InventoryCountFor(x.Id) > 2);
+        var list = query.ToList();
+    }
+    [Fact]
     public void ShouldGetAllMakesAndCarsThatAreYellow()
     {
         var query = Context.Makes.IgnoreQueryFilters()

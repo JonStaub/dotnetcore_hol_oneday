@@ -12,17 +12,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoLot.Dal.EfStructures.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220919181122_Initial")]
+    [Migration("20230515200748_Initial")]
     partial class Initial
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("AutoLot.Models.Entities.Car", b =>
                 {
@@ -30,7 +31,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -85,16 +86,15 @@ namespace AutoLot.Dal.EfStructures.Migrations
                     b.ToTable("Inventory", "dbo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("InventoryAudit");
-                            ttb
-                                .HasPeriodStart("ValidFrom")
-                                .HasColumnName("ValidFrom");
-                            ttb
-                                .HasPeriodEnd("ValidTo")
-                                .HasColumnName("ValidTo");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("InventoryAudit");
+                                ttb
+                                    .HasPeriodStart("ValidFrom")
+                                    .HasColumnName("ValidFrom");
+                                ttb
+                                    .HasPeriodEnd("ValidTo")
+                                    .HasColumnName("ValidTo");
+                            }));
                 });
 
             modelBuilder.Entity("AutoLot.Models.Entities.CarDriver", b =>
@@ -103,7 +103,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CarId")
                         .HasColumnType("int")
@@ -137,16 +137,15 @@ namespace AutoLot.Dal.EfStructures.Migrations
                     b.ToTable("InventoryToDrivers", "dbo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("InventoryToDriversAudit");
-                            ttb
-                                .HasPeriodStart("ValidFrom")
-                                .HasColumnName("ValidFrom");
-                            ttb
-                                .HasPeriodEnd("ValidTo")
-                                .HasColumnName("ValidTo");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("InventoryToDriversAudit");
+                                ttb
+                                    .HasPeriodStart("ValidFrom")
+                                    .HasColumnName("ValidFrom");
+                                ttb
+                                    .HasPeriodEnd("ValidTo")
+                                    .HasColumnName("ValidTo");
+                            }));
                 });
 
             modelBuilder.Entity("AutoLot.Models.Entities.CreditRisk", b =>
@@ -155,7 +154,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -178,7 +177,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<byte[]>("TimeStamp")
                         .IsConcurrencyToken()
@@ -196,7 +195,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<byte[]>("TimeStamp")
                         .IsConcurrencyToken()
@@ -214,7 +213,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -241,16 +240,15 @@ namespace AutoLot.Dal.EfStructures.Migrations
                     b.ToTable("Makes", "dbo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("MakesAudit");
-                            ttb
-                                .HasPeriodStart("ValidFrom")
-                                .HasColumnName("ValidFrom");
-                            ttb
-                                .HasPeriodEnd("ValidTo")
-                                .HasColumnName("ValidTo");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("MakesAudit");
+                                ttb
+                                    .HasPeriodStart("ValidFrom")
+                                    .HasColumnName("ValidFrom");
+                                ttb
+                                    .HasPeriodEnd("ValidTo")
+                                    .HasColumnName("ValidTo");
+                            }));
                 });
 
             modelBuilder.Entity("AutoLot.Models.Entities.Order", b =>
@@ -259,7 +257,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CarId")
                         .HasColumnType("int");
@@ -295,16 +293,15 @@ namespace AutoLot.Dal.EfStructures.Migrations
                     b.ToTable("Orders", "dbo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("OrdersAudit");
-                            ttb
-                                .HasPeriodStart("ValidFrom")
-                                .HasColumnName("ValidFrom");
-                            ttb
-                                .HasPeriodEnd("ValidTo")
-                                .HasColumnName("ValidTo");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("OrdersAudit");
+                                ttb
+                                    .HasPeriodStart("ValidFrom")
+                                    .HasColumnName("ValidFrom");
+                                ttb
+                                    .HasPeriodEnd("ValidTo")
+                                    .HasColumnName("ValidTo");
+                            }));
                 });
 
             modelBuilder.Entity("AutoLot.Models.Entities.Radio", b =>
@@ -313,7 +310,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CarId")
                         .HasColumnType("int")
@@ -353,16 +350,15 @@ namespace AutoLot.Dal.EfStructures.Migrations
                     b.ToTable("Radios", "dbo");
 
                     b.ToTable(tb => tb.IsTemporal(ttb =>
-                        {
-                            ttb.UseHistoryTable("RadiosAudit");
-                            ttb
-                                .HasPeriodStart("ValidFrom")
-                                .HasColumnName("ValidFrom");
-                            ttb
-                                .HasPeriodEnd("ValidTo")
-                                .HasColumnName("ValidTo");
-                        }
-                    ));
+                            {
+                                ttb.UseHistoryTable("RadiosAudit");
+                                ttb
+                                    .HasPeriodStart("ValidFrom")
+                                    .HasColumnName("ValidFrom");
+                                ttb
+                                    .HasPeriodEnd("ValidTo")
+                                    .HasColumnName("ValidTo");
+                            }));
                 });
 
             modelBuilder.Entity("AutoLot.Models.Entities.SeriLogEntry", b =>
@@ -371,7 +367,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ActionName")
                         .HasColumnType("nvarchar(max)");
@@ -465,7 +461,9 @@ namespace AutoLot.Dal.EfStructures.Migrations
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToView("CustomerOrderView");
+                    b.ToTable((string)null);
+
+                    b.ToView("CustomerOrderView", (string)null);
                 });
 
             modelBuilder.Entity("AutoLot.Models.Entities.Car", b =>

@@ -42,6 +42,7 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasForeignKey(d => d.MakeId)
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("FK_Inventory_Makes_MakeId");
+
         builder
             .HasMany(p => p.Drivers)
             .WithMany(p => p.Cars)

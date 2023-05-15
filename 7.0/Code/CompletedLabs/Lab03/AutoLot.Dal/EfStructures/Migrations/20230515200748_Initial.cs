@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoLot.Dal.EfStructures.Migrations
 {
+    /// <inheritdoc />
     public partial class Initial : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
@@ -55,17 +57,36 @@ namespace AutoLot.Dal.EfStructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "MakesAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "MakesAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "MakesAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidTo = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "MakesAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "MakesAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom")
                 },
                 constraints: table =>
                 {
@@ -136,23 +157,72 @@ namespace AutoLot.Dal.EfStructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Color = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    IsDrivable = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    DateBuilt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()"),
-                    Display = table.Column<string>(type: "nvarchar(max)", nullable: true, computedColumnSql: "[PetName] + ' (' + [Color] + ')'", stored: true),
-                    PetName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MakeId = table.Column<int>(type: "int", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    Color = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    IsDrivable = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    DateBuilt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    Display = table.Column<string>(type: "nvarchar(max)", nullable: true, computedColumnSql: "[PetName] + ' (' + [Color] + ')'", stored: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    PetName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    MakeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidTo = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom")
                 },
                 constraints: table =>
                 {
@@ -176,18 +246,42 @@ namespace AutoLot.Dal.EfStructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DriverId = table.Column<int>(type: "int", nullable: false),
-                    InventoryId = table.Column<int>(type: "int", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryToDriversAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    DriverId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryToDriversAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    InventoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryToDriversAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryToDriversAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidTo = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryToDriversAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "InventoryToDriversAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom")
                 },
                 constraints: table =>
                 {
@@ -218,18 +312,42 @@ namespace AutoLot.Dal.EfStructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CarId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "OrdersAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    CarId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "OrdersAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "OrdersAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "OrdersAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidTo = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "OrdersAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "OrdersAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom")
                 },
                 constraints: table =>
                 {
@@ -260,20 +378,54 @@ namespace AutoLot.Dal.EfStructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    HasTweeters = table.Column<bool>(type: "bit", nullable: false),
-                    HasSubWoofers = table.Column<bool>(type: "bit", nullable: false),
-                    RadioId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    InventoryId = table.Column<int>(type: "int", nullable: false),
+                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    HasTweeters = table.Column<bool>(type: "bit", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    HasSubWoofers = table.Column<bool>(type: "bit", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    RadioId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
+                    InventoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidFrom = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     ValidTo = table.Column<DateTime>(type: "datetime2", nullable: false)
                         .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
                         .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
                         .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom"),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                        .Annotation("SqlServer:IsTemporal", true)
+                        .Annotation("SqlServer:TemporalHistoryTableName", "RadiosAudit")
+                        .Annotation("SqlServer:TemporalHistoryTableSchema", "dbo")
+                        .Annotation("SqlServer:TemporalPeriodEndColumnName", "ValidTo")
+                        .Annotation("SqlServer:TemporalPeriodStartColumnName", "ValidFrom")
                 },
                 constraints: table =>
                 {
@@ -338,6 +490,7 @@ namespace AutoLot.Dal.EfStructures.Migrations
                 unique: true);
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
